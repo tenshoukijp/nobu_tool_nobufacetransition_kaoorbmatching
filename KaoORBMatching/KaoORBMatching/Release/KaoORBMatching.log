@@ -1,0 +1,5 @@
+﻿  KaoORBMatching.cpp
+KaoORBMatching.cpp(408): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+  コード生成しています。
+  コード生成が終了しました。
+  KaoORBMatching.vcxproj -> C:\usr\koei\tenshouki95\dllwrap\KaoORBMatching\Release\KaoORBMatching.exe
