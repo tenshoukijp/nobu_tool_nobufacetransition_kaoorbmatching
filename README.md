@@ -4,11 +4,11 @@
 
 - KaoORBMatching
 
-こちらが利用しているプログラム
+こちらが利用しているプログラム。こちらは縮尺が限りなく同じである時のみ検出可能。
 
-- KaoORBMatching_test_sample
+- KaoORBMatching_mini_face
 
-こちらは動作を確認するために作った最小サンプル
+こちらは小さい顔グラ専用で、多少縮尺が違っていても検出可能
 
 ![天翔記](https://img.shields.io/badge/天翔記-with_PK-6479ff.svg)
 
