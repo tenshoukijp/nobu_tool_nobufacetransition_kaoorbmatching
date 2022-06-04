@@ -2,8 +2,13 @@
 
 #include "opencv2\opencv.hpp"
 #include <stdio.h>
+#include "shlwapi.h"
+#include <iostream>
 
 using namespace std;
+
+// PathFileExists
+#pragma comment(lib, "shlwapi.lib")
 
 //Releaseモードの場合
 #pragma comment(lib, "zlib.lib")
@@ -49,6 +54,11 @@ cv::Mat DoubtfulA;
 cv::Mat DoubtfulB;
 
 int doORB(char *filenameA, char *filenameB) {
+	// クリア相当
+	cv::Mat dummyA;
+	cv::Mat dummyB;
+	DoubtfulA = dummyA.clone();
+	DoubtfulB = dummyB.clone();
 
 	//------------------------------------------------------------------------------------------------------------------------
 	// 画像読み込み～ 特徴点計算まで
@@ -388,7 +398,7 @@ int doORB(char *filenameA, char *filenameB) {
 	// 特徴点の位置マップが、左・右の図で、食い違うかどうかを見る。
 	// 全体の特徴点の数で、画像が一致してたとしても、たまに食い違うことがあるので、ある程度は妥協する
 	// 元々の画像が食い違う時は、思いっきり食い違うので弾くことが出来る
-	printf("特徴点の各点の一致性:\n");
+	// printf("特徴点の各点の一致性:\n");
 	int iDamecntRest = 1;
 
 	bool isAllSuperCorrect = true;
@@ -428,7 +438,7 @@ int doORB(char *filenameA, char *filenameB) {
 		if ( 0.95<= (coefAX / coefBX) && (coefAX / coefBX) <= 1.05 &&
 			 0.95<= (coefAY / coefBY) && (coefAY / coefBY) <= 1.05
 			) {
-			printf("OK! %f, %f\n", (coefAX / coefBX), (coefAY / coefBY));
+			// printf("OK! %f, %f\n", (coefAX / coefBX), (coefAY / coefBY));
 
 			// ある程度よかった座標の最小と最大を維持しておく
 			if (ptsA[i].x < goodMinPtsA.x) {
@@ -448,10 +458,10 @@ int doORB(char *filenameA, char *filenameB) {
 
 		}
 		else {
-			printf("NG! %f, %f\n", (coefAX / coefBX), (coefAY / coefBY));
+			// printf("NG! %f, %f\n", (coefAX / coefBX), (coefAY / coefBY));
 			iDamecntRest--;
 			if (iDamecntRest < 0) {
-				printf("特徴点の位置食い違い数が多すぎる");
+				// printf("特徴点の位置食い違い数が多すぎる");
 				return 0;
 			}
 		}
@@ -502,9 +512,9 @@ int doORB(char *filenameA, char *filenameB) {
 	// ここまでで合格していそうに見えても、最高矩形が狭すぎる場合
 	float imgAGoodXSub = goodMaxPtsA.x - goodMinPtsA.x;
 	float imgAGoodYSub = goodMaxPtsA.y - goodMinPtsA.y;
-	printf("最高矩形 %f, %f\n", imgAGoodXSub, imgAGoodYSub);
+	// printf("最高矩形 %f, %f\n", imgAGoodXSub, imgAGoodYSub);
 	if (imgAGoodXSub + imgAGoodYSub < 120) {
-		printf("最高矩形が狭すぎる\n");
+		// printf("最高矩形が狭すぎる\n");
 		return 0;
 	}
 
@@ -517,28 +527,59 @@ extern int KaoHistgramMatcing(char *filenameA, char *filenameB);
 
 int main(int argc, char **argv)
 {
-	if (argc < 3) {
-		return -1;
+	if (argc <= 1) {
+		return 0;
 	}
 
-	int isORBValid = doORB(argv[1], argv[2]);
+	char* filenameA = argv[1];
 
-	// ORB完全なる一致。ヒストグラムする必要なし
-	if (isORBValid >= 2) {
-		printf("一致：極めて高い確率で、引数1 は 引数2 の画像の一部を拡縮したデータです。\n", argv[1], argv[2]);
-	}
-	// ORBマッチでクリアした。（ORBマッチでクリア出来てる時点で、相当マッチ確率が高い)
-	else if (isORBValid) {
-		// 1ならマッチ、0ならミスマッチ、-1ならエラー
-		int result = KaoHistgramMatcing("_tmpA.png", "_tmpB.png");
-		if (result == 2) {
-			printf("一致：極めて高い確率で、引数1 は 引数2 の画像の一部を拡縮したデータです。\n", argv[1], argv[2]);
+	vector<string> prefix = { "nobu11pk", "nobu12pk", "nobu13pk", "nobu14pk", "nobu14pk", "nobu15pk", "nobu16pk", "nobu17pk", "nobu18pk" };
+
+	for (string nobu : prefix) {
+		for (int i = 0; i < 9999; i++) {
+			char bufnum[10] = "";
+			sprintf(bufnum, "%04d", i);
+			string strnum = bufnum;
+			string strFileNameB = nobu + "_" + strnum + ".png";
+			char* filenameB = (char *)strFileNameB.c_str();
+			BOOL existsA = PathFileExists(filenameA);
+			BOOL existsB = PathFileExists(filenameB);
+			if (string(filenameA) == string(filenameB)) {
+				continue;
+			}
+			// nobu**pk_0001.png が存在しないようでは、その系列は全て存在しない
+			if (i == 1 && !existsB) {
+				i += 9000;
+			}
+			if (existsA && existsB) {
+
+				int isORBValid = doORB(filenameA, filenameB);
+
+				// ORB完全なる一致。ヒストグラムする必要なし
+				if (isORBValid >= 2) {
+					// printf("一致：極めて高い確率で、引数1 は 引数2 の画像の一部を拡縮したデータです。\n", filenameA, filenameB);
+					cout << filenameA << "=>" << filenameB << endl;
+					cout << filenameB << "=>" << filenameA << endl << flush;
+				}
+				// ORBマッチでクリアした。（ORBマッチでクリア出来てる時点で、相当マッチ確率が高い)
+				else if (isORBValid) {
+					// 1ならマッチ、0ならミスマッチ、-1ならエラー
+					int result = KaoHistgramMatcing("_tmpA.png", "_tmpB.png");
+					if (result == 2) {
+						// printf("一致：極めて高い確率で、引数1 は 引数2 の画像の一部を拡縮したデータです。\n", filenameA, filenameB);
+						cout << filenameA << "=>" << filenameB << endl;
+						cout << filenameB << "=>" << filenameA << endl << flush;
+					}
+					else if (result == 1) {
+						// printf("一致：高い確率で、引数1 は 引数2 の画像の一部を拡縮したデータです。\n", filenameA, filenameB);
+						cout << filenameA << "=>" << filenameB << endl;
+						cout << filenameB << "=>" << filenameA << endl << flush;
+					}
+					return result;
+				}
+			}
 		}
-		else if (result == 1) {
-			printf("一致：高い確率で、引数1 は 引数2 の画像の一部を拡縮したデータです。\n", argv[1], argv[2]);
-		}
-		return result;
 	}
 
-	return 0;
+	return 1;
 }

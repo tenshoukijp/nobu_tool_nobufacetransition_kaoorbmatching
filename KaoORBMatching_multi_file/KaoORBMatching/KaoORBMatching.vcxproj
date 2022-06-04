@@ -14,7 +14,7 @@
     <ProjectGuid>{0F84E50E-8BE9-40F2-974B-A1BC327BB2D3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>KaoORBMatching</RootNamespace>
-    <ProjectName>KaoORBMatching</ProjectName>
+    <ProjectName>KaoORBMatching_multi</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

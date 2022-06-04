@@ -1,5 +1,8 @@
-﻿  KaoORBMatching.cpp
-KaoORBMatching.cpp(408): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (KaoORBMatching.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  KaoORBMatching.cpp
+KaoORBMatching.cpp(417): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+KaoORBMatching.cpp(540): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356) : 'sprintf' の宣言を確認してください。
   コード生成しています。
   コード生成が終了しました。
-  KaoORBMatching.vcxproj -> C:\usr\koei\tenshouki95\dllwrap\KaoORBMatching\Release\KaoORBMatching.exe
+  KaoORBMatching.vcxproj -> G:\repogitory_jp\nobu_tool_nobufacetransition_kaoorbmatching\KaoORBMatching_multi_file\Release\KaoORBMatching_multi.exe
