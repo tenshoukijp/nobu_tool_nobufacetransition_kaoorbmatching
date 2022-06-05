@@ -57,11 +57,11 @@ int KaoHistgramMatcing(char *filenameA, char *filenameB) {
 		cvNormalizeHist(hist1, 1.0);
 		cvNormalizeHist(hist2, 1.0);
 	}
-	printf("ヒストグラム:\n");
+	// printf("ヒストグラム:\n");
 	// printf("Correlation : %f\n", cvCompareHist(hist1, hist2, CV_COMP_CORREL));
 	// printf("Chi-square : %f\n", cvCompareHist(hist1, hist2, CV_COMP_CHISQR));
-	printf("ヒストグラム交差 : %f\n", cvCompareHist(hist1, hist2, CV_COMP_INTERSECT));
-	printf("バタチャリヤ距離 : %f\n", cvCompareHist(hist1, hist2, CV_COMP_BHATTACHARYYA));
+	// printf("ヒストグラム交差 : %f\n", cvCompareHist(hist1, hist2, CV_COMP_INTERSECT));
+	// printf("バタチャリヤ距離 : %f\n", cvCompareHist(hist1, hist2, CV_COMP_BHATTACHARYYA));
 
 	// マッチの基準
 	if (cvCompareHist(hist1, hist2, CV_COMP_INTERSECT) > 0.8 &&

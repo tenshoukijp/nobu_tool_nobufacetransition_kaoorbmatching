@@ -533,7 +533,7 @@ int main(int argc, char **argv)
 
 	char* filenameA = argv[1];
 
-	vector<string> prefix = { "nobu11pk", "nobu12pk", "nobu13pk", "nobu14pk", "nobu14pk", "nobu15pk", "nobu16pk", "nobu17pk", "nobu18pk" };
+	vector<string> prefix = { "nobu11pk", "nobu12pk", "nobu13pk", "nobu14pk", "nobu14rd", "nobu15pk", "nobu16pk", "nobu17pk", "nobu18pk" };
 
 	for (string nobu : prefix) {
 		for (int i = 0; i < 9999; i++) {
@@ -552,7 +552,7 @@ int main(int argc, char **argv)
 				i += 9000;
 			}
 			if (existsA && existsB) {
-
+				// cout << filenameA << "," << filenameB << endl;
 				int isORBValid = doORB(filenameA, filenameB);
 
 				// ORB完全なる一致。ヒストグラムする必要なし
