@@ -549,7 +549,7 @@ int main(int argc, char **argv)
 			}
 			// nobu**pk_0001.png ‚ª‘¶İ‚µ‚È‚¢‚æ‚¤‚Å‚ÍA‚»‚ÌŒn—ñ‚Í‘S‚Ä‘¶İ‚µ‚È‚¢
 			if (i == 1 && !existsB) {
-				i += 9000;
+				i += 9999;
 			}
 			if (existsA && existsB) {
 				// cout << filenameA << "," << filenameB << endl;
